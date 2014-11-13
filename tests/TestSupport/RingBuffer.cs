@@ -1,7 +1,3 @@
-// Define this to use simple synchronisation rather than events.
-// They are about the same in terms of speed.
-#define SimpleSynch
-
 using System;
 using System.Threading;
 
@@ -33,12 +29,8 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
             array_ = new byte[size];
             lockObject_ = new object();
 
-#if SimpleSynch
-            waitSpan_ = TimeSpan.FromMilliseconds(1);
-#else
 			notEmptyEvent_ = new ManualResetEvent(false);
 			notFullEvent_ = new ManualResetEvent(true);
-#endif
         }
         #endregion
 
@@ -53,10 +45,8 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 
             Array.Clear(array_, 0, array_.Length);
 
-#if !SimpleSynch
 			notFullEvent_.Set();
 			notEmptyEvent_.Reset();
-#endif
         }
 
         /// <summary>
@@ -66,9 +56,7 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
         public void Close()
         {
             isClosed_ = true;
-#if !SimpleSynch
 			notEmptyEvent_.Set();
-#endif
         }
 
         /// <summary>
@@ -82,27 +70,17 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
                 throw new ApplicationException("Buffer is closed");
             }
 
-#if SimpleSynch
-            while (IsFull)
-            {
-                Thread.Sleep(waitSpan_);
-            }
-#else
 			notFullEvent_.WaitOne();
-#endif
 
             lock (lockObject_)
             {
                 array_[head_] = value;
                 head_ = (head_ + 1) % array_.Length;
 
-#if !SimpleSynch
 				bool setEmpty = (count_ == 0);
-#endif
 
                 count_ += 1;
 
-#if !SimpleSynch
 				if (IsFull)
 				{
 					notFullEvent_.Reset();
@@ -112,7 +90,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 				{
 					notEmptyEvent_.Set();
 				}
-#endif
             }
 
             bytesWritten_++;
@@ -127,14 +104,7 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 
             while (count > 0)
             {
-#if SimpleSynch
-                while (IsFull)
-                {
-                    Thread.Sleep(waitSpan_);
-                }
-#else
 				notFullEvent_.WaitOne();
-#endif
 
                 // Gauranteed to not be full at this point, however readers may sill read
                 // from the buffer first.
@@ -146,9 +116,7 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
                     {
                         bytesToWrite = count;
                     }
-#if !SimpleSynch
 					bool setEmpty = (count_ == 0);
-#endif
 
                     while (bytesToWrite > 0)
                     {
@@ -163,7 +131,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
                         count_++;
                     }
 
-#if !SimpleSynch
 					if (IsFull)
 					{
 						notFullEvent_.Reset();
@@ -173,7 +140,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 					{
 						notEmptyEvent_.Set();
 					}
-#endif
                 }
             }
         }
@@ -186,14 +152,7 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
         {
             var result = -1;
 
-#if SimpleSynch
-            while (!isClosed_ && IsEmpty)
-            {
-                Thread.Sleep(waitSpan_);
-            }
-#else
 			notEmptyEvent_.WaitOne();
-#endif
 
             if (!IsEmpty)
             {
@@ -201,11 +160,8 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
                 {
                     result = array_[tail_];
                     tail_ = (tail_ + 1) % array_.Length;
-#if !SimpleSynch
 					bool setFull = IsFull;
-#endif
                     count_ -= 1;
-#if !SimpleSynch
 					if (!isClosed_ && (count_ == 0))
 					{
 						notEmptyEvent_.Reset();
@@ -215,7 +171,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 					{
 						notFullEvent_.Set();
 					}
-#endif
                 }
             }
 
@@ -230,14 +185,7 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 
             while (count > 0)
             {
-#if SimpleSynch
-                while (!isClosed_ && IsEmpty)
-                {
-                    Thread.Sleep(waitSpan_);
-                }
-#else
 				notEmptyEvent_.WaitOne();
-#endif
 
                 if (IsEmpty)
                 {
@@ -256,9 +204,7 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 
                         result += toRead;
 
-#if !SimpleSynch
 						bool setFull = IsFull;
-#endif
 
                         while (toRead > 0)
                         {
@@ -271,7 +217,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
                             toRead--;
                             bytesRead_++;
                         }
-#if !SimpleSynch
 						if (!isClosed_ && (count_ == 0))
 						{
 							notEmptyEvent_.Reset();
@@ -281,7 +226,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 						{
 							notFullEvent_.Set();
 						}
-#endif
                     }
                 }
             }
@@ -392,10 +336,8 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 
         readonly TimeSpan waitSpan_;
 
-#if !SimpleSynch
-		ManualResetEvent notEmptyEvent_;
-		ManualResetEvent notFullEvent_;
-#endif
+        readonly ManualResetEvent notEmptyEvent_;
+        readonly ManualResetEvent notFullEvent_;
         #endregion
     }
 
