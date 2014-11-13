@@ -59,13 +59,7 @@ using System.Runtime.InteropServices;
 
 
 [assembly: CLSCompliant(true)]
-
-#if (!NETCF)
-//
-// If #Zip is strongly named it still allows partially trusted callers
-//
 [assembly: System.Security.AllowPartiallyTrustedCallers]
-#endif
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
