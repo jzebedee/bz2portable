@@ -86,21 +86,6 @@
     <Compile Include="Checksums\StrangeCrc.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Core\FileSystemScanner.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Core\IScanFilter.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Core\NameFilter.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Core\PathFilter.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Core\StreamUtils.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Checksums\IChecksum.cs" />

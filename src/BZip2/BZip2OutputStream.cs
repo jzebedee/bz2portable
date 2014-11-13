@@ -103,6 +103,7 @@ namespace ICSharpCode.SharpZipLib.BZip2
         /// </remarks>
         public BZip2OutputStream(Stream stream, int blockSize)
         {
+            IsStreamOwner = true;
             BsSetStream(stream);
 
             workFactor = 50;
@@ -135,14 +136,8 @@ namespace ICSharpCode.SharpZipLib.BZip2
 
         /// <summary>
         /// Get/set flag indicating ownership of underlying stream.
-        /// When the flag is true <see cref="Close"></see> will close the underlying stream also.
         /// </summary>
-        public bool IsStreamOwner
-        {
-            get { return isStreamOwner; }
-            set { isStreamOwner = value; }
-        }
-
+        public bool IsStreamOwner { get; set; }
 
         #region Stream overrides
         /// <summary>
@@ -314,16 +309,6 @@ namespace ICSharpCode.SharpZipLib.BZip2
             }
         }
 
-        /// <summary>
-        /// End the current block and end compression.
-        /// Close the stream and free any resources
-        /// </summary>
-        public override void Close()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
         #endregion
         void MakeMaps()
         {
@@ -407,41 +392,24 @@ namespace ICSharpCode.SharpZipLib.BZip2
         /// Releases the unmanaged resources used by the <see cref="BZip2OutputStream"/> and optionally releases the managed resources.
         /// </summary>
         /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
-#if NET_1_0 || NET_1_1 || NETCF_1_0
-		protected virtual void Dispose(bool disposing)
-#else
         override protected void Dispose(bool disposing)
-#endif
         {
-            try
-            {
-#if !NET_1_0 && !NET_1_1 && !NETCF_1_0
+            if (IsStreamOwner)
                 base.Dispose(disposing);
-#endif
-                if (!disposed_)
-                {
-                    disposed_ = true;
 
-                    if (runLength > 0)
-                    {
-                        WriteRun();
-                    }
-
-                    currentChar = -1;
-                    EndBlock();
-                    EndCompression();
-                    Flush();
-                }
-            }
-            finally
+            if (!disposed_)
             {
-                if (disposing)
+                disposed_ = true;
+
+                if (runLength > 0)
                 {
-                    if (IsStreamOwner)
-                    {
-                        baseStream.Close();
-                    }
+                    WriteRun();
                 }
+
+                currentChar = -1;
+                EndBlock();
+                EndCompression();
+                Flush();
             }
         }
 
@@ -1992,7 +1960,6 @@ namespace ICSharpCode.SharpZipLib.BZip2
         }
 
         #region Instance Fields
-        bool isStreamOwner = true;
 
         /*--
         index of the last char in the block, so

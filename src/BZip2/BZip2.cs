@@ -64,7 +64,7 @@ namespace ICSharpCode.SharpZipLib.BZip2
                 using (var bzipInput = new BZip2InputStream(inStream))
                 {
                     bzipInput.IsStreamOwner = isStreamOwner;
-                    Core.StreamUtils.Copy(bzipInput, outStream, new byte[4096]);
+                    bzipInput.CopyTo(outStream, 4096);
                 }
             }
             finally
@@ -72,7 +72,7 @@ namespace ICSharpCode.SharpZipLib.BZip2
                 if (isStreamOwner)
                 {
                     // inStream is closed by the BZip2InputStream if stream owner
-                    outStream.Close();
+                    outStream.Dispose();
                 }
             }
         }
@@ -98,7 +98,7 @@ namespace ICSharpCode.SharpZipLib.BZip2
                 using (var bzipOutput = new BZip2OutputStream(outStream, level))
                 {
                     bzipOutput.IsStreamOwner = isStreamOwner;
-                    Core.StreamUtils.Copy(inStream, bzipOutput, new byte[4096]);
+                    inStream.CopyTo(bzipOutput, 4096);
                 }
             }
             finally
@@ -106,7 +106,7 @@ namespace ICSharpCode.SharpZipLib.BZip2
                 if (isStreamOwner)
                 {
                     // outStream is closed by the BZip2OutputStream if stream owner
-                    inStream.Close();
+                    inStream.Dispose();
                 }
             }
         }

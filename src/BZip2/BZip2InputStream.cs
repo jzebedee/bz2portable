@@ -81,7 +81,6 @@ namespace ICSharpCode.SharpZipLib.BZip2
 
         /// <summary>
         /// Get/set flag indicating ownership of underlying stream.
-        /// When the flag is true <see cref="Close"></see> will close the underlying stream also.
         /// </summary>
         public bool IsStreamOwner { get; set; }
 
@@ -237,16 +236,6 @@ namespace ICSharpCode.SharpZipLib.BZip2
             return count;
         }
 
-        /// <summary>
-        /// Closes the stream, releasing any associated resources.
-        /// </summary>
-        public override void Close()
-        {
-            if (IsStreamOwner && (baseStream != null))
-            {
-                baseStream.Close();
-            }
-        }
         /// <summary>
         /// Read a byte from stream advancing position
         /// </summary>
