@@ -4,8 +4,11 @@
 
 /bin
 /src/obj/Debug
+/src/obj/Release
 /tests/bin/Debug
+/tests/bin/Release
 /tests/obj/Debug
+/tests/obj/Release
 *.user
 *.suo
 *.snk
