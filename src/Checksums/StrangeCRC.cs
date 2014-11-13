@@ -38,14 +38,14 @@
 
 using System;
 
-namespace ICSharpCode.SharpZipLib.Checksums 
+namespace ICSharpCode.SharpZipLib.Checksums
 {
-	/// <summary>
-	/// Bzip2 checksum algorithm
-	/// </summary>
-	public class StrangeCRC : IChecksum
-	{
-		readonly static uint[] crc32Table = {
+    /// <summary>
+    /// Bzip2 checksum algorithm
+    /// </summary>
+    public class StrangeCRC : IChecksum
+    {
+        readonly static uint[] crc32Table = {
 			0x00000000, 0x04c11db7, 0x09823b6e, 0x0d4326d9,
 			0x130476dc, 0x17c56b6b, 0x1a864db2, 0x1e475005,
 			0x2608edb8, 0x22c9f00f, 0x2f8ad6d6, 0x2b4bcb61,
@@ -111,98 +111,104 @@ namespace ICSharpCode.SharpZipLib.Checksums
 			0xafb010b1, 0xab710d06, 0xa6322bdf, 0xa2f33668,
 			0xbcb4666d, 0xb8757bda, 0xb5365d03, 0xb1f740b4
 		};
-		
-		int globalCrc;
 
-		/// <summary>
-		/// Initialise a default instance of <see cref="StrangeCRC"></see>
-		/// </summary>	
-		public StrangeCRC() 
-		{
-			Reset();
-		}
+        int globalCrc;
 
-		/// <summary>
-		/// Reset the state of Crc.
-		/// </summary>
-		public void Reset()
-		{
-			globalCrc = -1;
-		}
+        /// <summary>
+        /// Initialise a default instance of <see cref="StrangeCRC"></see>
+        /// </summary>	
+        public StrangeCRC()
+        {
+            Reset();
+        }
 
-		/// <summary>
-		/// Get the current Crc value.
-		/// </summary>
-		public long Value {
-			get {
-				return ~globalCrc;
-			}
-		}
-		
-		/// <summary>
-		/// Update the Crc value.
-		/// </summary>
-		/// <param name="value">data update is based on</param>
-		public void Update(int value)
-		{
-			int temp = (globalCrc >> 24) ^ value;
-			if (temp < 0) {
-				temp = 256 + temp;
-			}
-			globalCrc = unchecked((int)((globalCrc << 8) ^ crc32Table[temp]));
-		}
+        /// <summary>
+        /// Reset the state of Crc.
+        /// </summary>
+        public void Reset()
+        {
+            globalCrc = -1;
+        }
 
-		/// <summary>
-		/// Update Crc based on a block of data
-		/// </summary>
-		/// <param name="buffer">The buffer containing data to update the crc with.</param>
-		public void Update(byte[] buffer)
-		{
-			if (buffer == null) {
-				throw new ArgumentNullException("buffer");
-			}
-			
-			Update(buffer, 0, buffer.Length);
-		}
-		
-		/// <summary>
-		/// Update Crc based on a portion of a block of data
-		/// </summary>
-		/// <param name="buffer">block of data</param>
-		/// <param name="offset">index of first byte to use</param>
-		/// <param name="count">number of bytes to use</param>
-		public void Update(byte[] buffer, int offset, int count)
-		{
-			if (buffer == null) {
-				throw new ArgumentNullException("buffer");
-			}
-			
-			if ( offset < 0 )
-			{
+        /// <summary>
+        /// Get the current Crc value.
+        /// </summary>
+        public long Value
+        {
+            get
+            {
+                return ~globalCrc;
+            }
+        }
+
+        /// <summary>
+        /// Update the Crc value.
+        /// </summary>
+        /// <param name="value">data update is based on</param>
+        public void Update(int value)
+        {
+            var temp = (globalCrc >> 24) ^ value;
+            if (temp < 0)
+            {
+                temp = 256 + temp;
+            }
+            globalCrc = unchecked((int)((globalCrc << 8) ^ crc32Table[temp]));
+        }
+
+        /// <summary>
+        /// Update Crc based on a block of data
+        /// </summary>
+        /// <param name="buffer">The buffer containing data to update the crc with.</param>
+        public void Update(byte[] buffer)
+        {
+            if (buffer == null)
+            {
+                throw new ArgumentNullException("buffer");
+            }
+
+            Update(buffer, 0, buffer.Length);
+        }
+
+        /// <summary>
+        /// Update Crc based on a portion of a block of data
+        /// </summary>
+        /// <param name="buffer">block of data</param>
+        /// <param name="offset">index of first byte to use</param>
+        /// <param name="count">number of bytes to use</param>
+        public void Update(byte[] buffer, int offset, int count)
+        {
+            if (buffer == null)
+            {
+                throw new ArgumentNullException("buffer");
+            }
+
+            if (offset < 0)
+            {
 #if NETCF_1_0
 				throw new ArgumentOutOfRangeException("offset");
 #else
-				throw new ArgumentOutOfRangeException("offset", "cannot be less than zero");
-#endif				
-			}
+                throw new ArgumentOutOfRangeException("offset", "cannot be less than zero");
+#endif
+            }
 
-			if ( count < 0 )
-			{
+            if (count < 0)
+            {
 #if NETCF_1_0
 				throw new ArgumentOutOfRangeException("count");
 #else
-				throw new ArgumentOutOfRangeException("count", "cannot be less than zero");
+                throw new ArgumentOutOfRangeException("count", "cannot be less than zero");
 #endif
-			}
+            }
 
-			if ( offset + count > buffer.Length )
-			{
-				throw new ArgumentOutOfRangeException("count");
-			}
-			
-			for (int i = 0; i < count; ++i) {
-				Update(buffer[offset++]);
-			}
-		}
-	}
+            if (offset + count > buffer.Length)
+            {
+                throw new ArgumentOutOfRangeException("count");
+            }
+
+            for (var i = 0; i < count; ++i)
+            {
+                Update(buffer[offset++]);
+            }
+        }
+    }
 }
