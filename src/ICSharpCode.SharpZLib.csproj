@@ -81,9 +81,6 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Checksums\StrangeCrc.cs">
       <SubType>Code</SubType>
     </Compile>
