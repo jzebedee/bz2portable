@@ -147,12 +147,11 @@ namespace ICSharpCode.SharpZipLib.Checksums
         /// <param name="value">data update is based on</param>
         public void Update(int value)
         {
-            var temp = (globalCrc >> 24) ^ value;
-            if (temp < 0)
-            {
-                temp = 256 + temp;
-            }
-            globalCrc = unchecked((int)((globalCrc << 8) ^ crc32Table[temp]));
+            int index = (globalCrc >> 24) ^ value;
+            if (index < 0)
+                index += 256;
+
+            globalCrc = (int)((globalCrc << 8) ^ crc32Table[index]);
         }
 
         /// <summary>
@@ -162,9 +161,7 @@ namespace ICSharpCode.SharpZipLib.Checksums
         public void Update(byte[] buffer)
         {
             if (buffer == null)
-            {
                 throw new ArgumentNullException("buffer");
-            }
 
             Update(buffer, 0, buffer.Length);
         }
@@ -178,28 +175,17 @@ namespace ICSharpCode.SharpZipLib.Checksums
         public void Update(byte[] buffer, int offset, int count)
         {
             if (buffer == null)
-            {
                 throw new ArgumentNullException("buffer");
-            }
-
             if (offset < 0)
-            {
                 throw new ArgumentOutOfRangeException("offset", "cannot be less than zero");
-            }
-
             if (count < 0)
-            {
                 throw new ArgumentOutOfRangeException("count", "cannot be less than zero");
-            }
-
             if (offset + count > buffer.Length)
-            {
                 throw new ArgumentOutOfRangeException("count");
-            }
 
-            for (var i = 0; i < count; ++i)
+            for (var i = 0; i < count; i++)
             {
-                Update(buffer[offset++]);
+                Update(buffer[offset + i]);
             }
         }
     }
