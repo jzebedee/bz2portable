@@ -35,10 +35,9 @@
 
 using System;
 using System.IO;
+using bz2portable.Checksums;
 
-using ICSharpCode.SharpZipLib.Checksums;
-
-namespace ICSharpCode.SharpZipLib.BZip2
+namespace bz2portable.BZip2
 {
 
     // TODO: Update to BZip2 1.0.1, 1.0.2

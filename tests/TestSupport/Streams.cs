@@ -11,7 +11,7 @@ using System;
 using System.IO;
 
 // ReSharper disable once CheckNamespace
-namespace ICSharpCode.SharpZipLib.Tests.TestSupport
+namespace bz2portable.Tests.TestSupport
 {
     /// <summary>
     /// An extended <see cref="MemoryStream">memory stream</see>

@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 
 // ReSharper disable once CheckNamespace
-namespace ICSharpCode.SharpZipLib.Tests.TestSupport
+namespace bz2portable.Tests.TestSupport
 {
     /// <summary>
     /// A fixed size buffer of bytes.  Both reading and writing are supported.
@@ -333,8 +333,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
         long bytesRead_;
 
         readonly object lockObject_;
-
-        readonly TimeSpan waitSpan_;
 
         readonly ManualResetEvent notEmptyEvent_;
         readonly ManualResetEvent notFullEvent_;

@@ -32,7 +32,7 @@
 // obligated to do so.  If you do not wish to do so, delete this
 // exception statement from your version.
 
-namespace ICSharpCode.SharpZipLib.BZip2
+namespace bz2portable.BZip2
 {
 
     /// <summary>

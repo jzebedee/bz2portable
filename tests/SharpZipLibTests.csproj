@@ -70,12 +70,8 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="BZip2\Bzip2Tests.cs" />
-    <Compile Include="TestSupport\RingBuffer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TestSupport\Streams.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="TestSupport\RingBuffer.cs" />
+    <Compile Include="TestSupport\Streams.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\src\ICSharpCode.SharpZLib.csproj">
@@ -104,5 +100,6 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
 </Project>

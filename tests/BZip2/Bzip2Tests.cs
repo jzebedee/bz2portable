@@ -1,15 +1,12 @@
 using System;
 using System.IO;
 using System.Threading;
-
-using ICSharpCode.SharpZipLib.BZip2;
-
-using ICSharpCode.SharpZipLib.Tests.TestSupport;
-
+using bz2portable.BZip2;
+using bz2portable.Tests.TestSupport;
 using NUnit.Framework;
 
 // ReSharper disable once CheckNamespace
-namespace ICSharpCode.SharpZipLib.Tests.BZip2
+namespace bz2portable.Tests.BZip2
 {
     /// <summary>
     /// This class contains test cases for Bzip2 compression

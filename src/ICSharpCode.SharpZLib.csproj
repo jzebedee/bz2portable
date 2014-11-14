@@ -6,8 +6,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}</ProjectGuid>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <RootNamespace>ICSharpCode.SharpZipLib</RootNamespace>
-    <AssemblyName>ICSharpCode.SharpZipLib</AssemblyName>
+    <RootNamespace>bz2portable</RootNamespace>
+    <AssemblyName>bz2portable</AssemblyName>
     <OutputType>Library</OutputType>
     <ApplicationIcon />
     <WarningLevel>4</WarningLevel>
@@ -51,6 +51,7 @@
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <DebugType>None</DebugType>
     <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>..\bin\bz2portable.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -62,6 +63,7 @@
     <DebugType>Full</DebugType>
     <Prefer32Bit>false</Prefer32Bit>
     <DefineConstants />
+    <DocumentationFile>..\bin\bz2portable.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <RegisterForComInterop>False</RegisterForComInterop>
@@ -77,10 +79,10 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>bz2portable.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BZip2\BZip2.cs" />
     <Compile Include="Checksums\StrangeCrc.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -89,8 +91,6 @@
     <Compile Include="BZip2\BZip2InputStream.cs" />
     <Compile Include="BZip2\BZip2OutputStream.cs" />
     <Compile Include="BZip2\BZip2Constants.cs" />
-    <Compile Include="BZip2\BZip2.cs" />
-    <Compile Include="SharpZipBaseException.cs" />
     <Compile Include="BZip2\BZip2Exception.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -104,6 +104,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bz2portable.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
 </Project>

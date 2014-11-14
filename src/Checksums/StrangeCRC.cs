@@ -38,7 +38,7 @@
 
 using System;
 
-namespace ICSharpCode.SharpZipLib.Checksums
+namespace bz2portable.Checksums
 {
     /// <summary>
     /// Bzip2 checksum algorithm

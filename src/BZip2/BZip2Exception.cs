@@ -35,12 +35,12 @@
 
 using System;
 
-namespace ICSharpCode.SharpZipLib.BZip2
+namespace bz2portable.BZip2
 {
     /// <summary>
     /// BZip2Exception represents exceptions specific to Bzip2 algorithm
     /// </summary>
-    public class BZip2Exception : SharpZipBaseException
+    public class BZip2Exception : Exception
     {
         /// <summary>
         /// Initialise a new instance of BZip2Exception.
