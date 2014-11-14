@@ -39,8 +39,8 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("bz2portable")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyProduct("#ZipLibrary")]
+[assembly: AssemblyDescription("Portable fork of #ziplib with only Bz2 included")]
+[assembly: AssemblyProduct("")]
 [assembly: AssemblyDefaultAlias("SharpZipLib")]
 [assembly: AssemblyCulture("")]
 
@@ -50,7 +50,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("Release")]
 #endif
 
-[assembly: AssemblyCompany("ICSharpCode.net")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyCopyright("Copyright 2001-2010 Mike Krueger, John Reilly")]
 [assembly: AssemblyTrademark("Copyright 2001-2010 Mike Krueger, John Reilly")]
 

@@ -74,9 +74,9 @@
     <Compile Include="TestSupport\Streams.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\ICSharpCode.SharpZLib.csproj">
-      <Project>{18D20629-913A-4474-B2D1-643290E14ED7}</Project>
-      <Name>ICSharpCode.SharpZLib</Name>
+    <ProjectReference Include="..\src\bz2portable.csproj">
+      <Project>{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}</Project>
+      <Name>bz2portable</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
