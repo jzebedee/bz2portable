@@ -340,35 +340,24 @@ namespace ICSharpCode.SharpZipLib.BZip2
                 switch (runLength)
                 {
                     case 1:
-                        last++;
-                        block[last + 1] = (byte)currentChar;
+                        block[++last + 1] = (byte)currentChar;
                         break;
                     case 2:
-                        last++;
-                        block[last + 1] = (byte)currentChar;
-                        last++;
-                        block[last + 1] = (byte)currentChar;
+                        block[++last + 1] = (byte)currentChar;
+                        block[++last + 1] = (byte)currentChar;
                         break;
                     case 3:
-                        last++;
-                        block[last + 1] = (byte)currentChar;
-                        last++;
-                        block[last + 1] = (byte)currentChar;
-                        last++;
-                        block[last + 1] = (byte)currentChar;
+                        block[++last + 1] = (byte)currentChar;
+                        block[++last + 1] = (byte)currentChar;
+                        block[++last + 1] = (byte)currentChar;
                         break;
                     default:
                         inUse[runLength - 4] = true;
-                        last++;
-                        block[last + 1] = (byte)currentChar;
-                        last++;
-                        block[last + 1] = (byte)currentChar;
-                        last++;
-                        block[last + 1] = (byte)currentChar;
-                        last++;
-                        block[last + 1] = (byte)currentChar;
-                        last++;
-                        block[last + 1] = (byte)(runLength - 4);
+                        block[++last + 1] = (byte)currentChar;
+                        block[++last + 1] = (byte)currentChar;
+                        block[++last + 1] = (byte)currentChar;
+                        block[++last + 1] = (byte)currentChar;
+                        block[++last + 1] = (byte)(runLength - 4);
                         break;
                 }
             }
@@ -490,7 +479,7 @@ namespace ICSharpCode.SharpZipLib.BZip2
             /*-- Now the block's CRC, so it is in a known place. --*/
             unchecked
             {
-                BsPutint((int)blockCRC);
+                BsPutInt((int)blockCRC);
             }
 
             /*-- Now a single bit indicating randomisation. --*/
@@ -526,7 +515,7 @@ namespace ICSharpCode.SharpZipLib.BZip2
 
             unchecked
             {
-                BsPutint((int)combinedCRC);
+                BsPutInt((int)combinedCRC);
             }
 
             BsFinishedWithStream();
@@ -544,8 +533,7 @@ namespace ICSharpCode.SharpZipLib.BZip2
         {
             while (bsLive > 0)
             {
-                var ch = (bsBuff >> 24);
-                baseStream.WriteByte((byte)ch); // write 8-bit
+                baseStream.WriteByte((byte)(bsBuff >> 24)); // write 8-bit
                 bsBuff <<= 8;
                 bsLive -= 8;
                 bytesOut++;
@@ -556,12 +544,12 @@ namespace ICSharpCode.SharpZipLib.BZip2
         {
             while (bsLive >= 8)
             {
-                var ch = (bsBuff >> 24);
-                unchecked { baseStream.WriteByte((byte)ch); } // write 8-bit
+                baseStream.WriteByte((byte)(bsBuff >> 24)); // write 8-bit
                 bsBuff <<= 8;
                 bsLive -= 8;
-                ++bytesOut;
+                bytesOut++;
             }
+
             bsBuff |= (v << (32 - bsLive - n));
             bsLive += n;
         }
@@ -571,7 +559,7 @@ namespace ICSharpCode.SharpZipLib.BZip2
             BsW(8, c);
         }
 
-        void BsPutint(int u)
+        void BsPutInt(int u)
         {
             BsW(8, (u >> 24) & 0xFF);
             BsW(8, (u >> 16) & 0xFF);
@@ -758,7 +746,7 @@ namespace ICSharpCode.SharpZipLib.BZip2
                     Find the coding table which is best for this group,
                     and record its identity in the selector table.
                     --*/
-                    int bc = 999999999;
+                    int bc = int.MaxValue;
                     int bt = -1;
                     for (var t = 0; t < nGroups; ++t)
                     {
@@ -797,7 +785,7 @@ namespace ICSharpCode.SharpZipLib.BZip2
                 Panic();
             }
 
-            if (!(nSelectors < 32768 && nSelectors <= (2 + (900000 / BZip2Constants.GroupSize))))
+            if (!(nSelectors < 0x8000 && nSelectors <= (2 + (900000 / BZip2Constants.GroupSize))))
             {
                 Panic();
             }
@@ -1478,59 +1466,15 @@ namespace ICSharpCode.SharpZipLib.BZip2
 
         bool FullGtU(int i1, int i2)
         {
-            byte c1 = block[i1 + 1];
-            byte c2 = block[i2 + 1];
-            if (c1 != c2)
+            byte c1 = 0, c2 = 0;
+            for (int i = 0; c1 == c2 && i < 6; i1++, i2++, i++)
             {
-                return c1 > c2;
+                c1 = block[i1 + 1];
+                c2 = block[i2 + 1];
             }
-            i1++;
-            i2++;
 
-            c1 = block[i1 + 1];
-            c2 = block[i2 + 1];
             if (c1 != c2)
-            {
                 return c1 > c2;
-            }
-            i1++;
-            i2++;
-
-            c1 = block[i1 + 1];
-            c2 = block[i2 + 1];
-            if (c1 != c2)
-            {
-                return c1 > c2;
-            }
-            i1++;
-            i2++;
-
-            c1 = block[i1 + 1];
-            c2 = block[i2 + 1];
-            if (c1 != c2)
-            {
-                return c1 > c2;
-            }
-            i1++;
-            i2++;
-
-            c1 = block[i1 + 1];
-            c2 = block[i2 + 1];
-            if (c1 != c2)
-            {
-                return c1 > c2;
-            }
-            i1++;
-            i2++;
-
-            c1 = block[i1 + 1];
-            c2 = block[i2 + 1];
-            if (c1 != c2)
-            {
-                return c1 > c2;
-            }
-            i1++;
-            i2++;
 
             int k = last + 1;
 
