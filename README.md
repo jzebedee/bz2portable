@@ -1,7 +1,9 @@
-SharpZipLib
+bz2portable
 ===========
 
-\#ziplib is a Zip, GZip, Tar and BZip2 library written entirely in C# for the .NET platform.
+bz2portable contains the BZip2 library portion of \#ziplib, updated for .NET 4.5 and created as a Portable Class Library.
 
-Please see the [\#ziplib homepage](http://icsharpcode.github.io/SharpZipLib/) for precompiled downloads, 
-license information, link to the forum (support), release history, samples and more.
+bz2portable is available on [NuGet](https://www.nuget.org/packages/bz2portable)
+
+## \#ziplib
+For more information, please see the [\#ziplib homepage](http://icsharpcode.github.io/SharpZipLib/)
