@@ -35,7 +35,7 @@
 
 using System;
 
-namespace bz2portable.BZip2
+namespace bz2core
 {
     /// <summary>
     /// BZip2Exception represents exceptions specific to Bzip2 algorithm

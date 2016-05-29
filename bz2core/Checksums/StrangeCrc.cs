@@ -38,7 +38,7 @@
 
 using System;
 
-namespace bz2portable.Checksums
+namespace bz2core.Checksums
 {
     /// <summary>
     /// Bzip2 checksum algorithm

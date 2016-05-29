@@ -35,9 +35,9 @@
 
 using System;
 using System.IO;
-using bz2portable.Checksums;
+using bz2core.Checksums;
 
-namespace bz2portable.BZip2
+namespace bz2core
 {
 
     /// <summary>

@@ -38,7 +38,7 @@
 using System;
 using System.IO;
 
-namespace bz2portable.BZip2
+namespace bz2core
 {
 
     /// <summary>
